@@ -126,8 +126,76 @@ Support Server
 
 </div>
 
-<!-- PLAYER -->
+<!-- MUSIC PLAYER -->
+
+<div class="music-card">
+
+<div class="song-top">
+
+<img
+id="cover"
+src="https://i.imgur.com/W8sQw5x.png">
+
+<div>
+
+<h3 id="song-title">
+Alan Walker - Faded
+</h3>
+
+<p id="artist">
+Now Playing
+</p>
+
+</div>
+
+</div>
+
+<audio id="audio"></audio>
+
+<div class="progress">
+
+<div
+class="progress-fill"
+id="progress-fill">
+</div>
+
+</div>
+
+<div class="times">
+
+<span id="current">
+0:00
+</span>
+
+<span id="duration">
+0:00
+</span>
+
+</div>
+
+<div class="controls">
+
+<button id="prev-btn">
+⏮
+</button>
+
+<button id="play-btn">
+▶
+</button>
+
+<button id="next-btn">
+⏭
+</button>
+
+</div>
+
+</div>
+
 <script>
+
+document.addEventListener(
+"DOMContentLoaded",
+() => {
 
 const songs = [
 
@@ -177,6 +245,12 @@ document.getElementById("cover");
 const playBtn =
 document.getElementById("play-btn");
 
+const prevBtn =
+document.getElementById("prev-btn");
+
+const nextBtn =
+document.getElementById("next-btn");
+
 const progress =
 document.getElementById("progress-fill");
 
@@ -200,7 +274,9 @@ audio.src = song.src;
 
 loadSong(songs[currentSong]);
 
-function togglePlay(){
+playBtn.addEventListener(
+"click",
+() => {
 
 if(audio.paused){
 
@@ -217,12 +293,15 @@ playBtn.innerText = "▶";
 }
 
 }
+);
 
-function nextSong(){
+nextBtn.addEventListener(
+"click",
+() => {
 
 currentSong++;
 
-if(currentSong > songs.length - 1){
+if(currentSong >= songs.length){
 currentSong = 0;
 }
 
@@ -233,13 +312,17 @@ audio.play();
 playBtn.innerText = "⏸";
 
 }
+);
 
-function prevSong(){
+prevBtn.addEventListener(
+"click",
+() => {
 
 currentSong--;
 
 if(currentSong < 0){
-currentSong = songs.length - 1;
+currentSong =
+songs.length - 1;
 }
 
 loadSong(songs[currentSong]);
@@ -249,6 +332,7 @@ audio.play();
 playBtn.innerText = "⏸";
 
 }
+);
 
 audio.addEventListener(
 "timeupdate",
@@ -258,6 +342,8 @@ const {
 duration: dur,
 currentTime
 } = audio;
+
+if(dur){
 
 const percent =
 (currentTime / dur) * 100;
@@ -272,7 +358,8 @@ let currentSec =
 Math.floor(currentTime % 60);
 
 if(currentSec < 10){
-currentSec = "0" + currentSec;
+currentSec =
+"0" + currentSec;
 }
 
 current.innerText =
@@ -285,93 +372,40 @@ let durationSec =
 Math.floor(dur % 60);
 
 if(durationSec < 10){
-durationSec = "0" + durationSec;
+durationSec =
+"0" + durationSec;
 }
 
-if(dur){
 duration.innerText =
 `${durationMin}:${durationSec}`;
+
 }
 
-});
+}
+);
 
 audio.addEventListener(
 "ended",
-nextSong
+() => {
+
+currentSong++;
+
+if(currentSong >= songs.length){
+currentSong = 0;
+}
+
+loadSong(songs[currentSong]);
+
+audio.play();
+
+}
 );
 
-  </script>
+}
+);
 
-<!-- MUSIC PLAYER -->
+</script>
 
-<div class="music-card">
-
-<div class="song-top">
-
-<img
-id="cover"
-src="https://i.imgur.com/W8sQw5x.png">
-
-<div>
-
-<h3 id="song-title">
-Alan Walker - Faded
-</h3>
-
-<p id="artist">
-Now Playing
-</p>
-
-</div>
-
-</div>
-
-<audio id="audio">
-
-<source
-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-type="audio/mp3">
-
-</audio>
-
-<div class="progress">
-
-<div class="progress-fill"
-id="progress-fill"></div>
-
-</div>
-
-<div class="times">
-
-<span id="current">
-0:00
-</span>
-
-<span id="duration">
-0:00
-</span>
-
-</div>
-
-<div class="controls">
-
-<button onclick="prevSong()">
-⏮
-</button>
-
-<button onclick="togglePlay()"
-id="play-btn">
-▶
-</button>
-
-<button onclick="nextSong()">
-⏭
-</button>
-
-</div>
-
-</div>
-  
 <!-- FEATURES -->
 
 <section class="features"
