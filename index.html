@@ -127,49 +127,251 @@ Support Server
 </div>
 
 <!-- PLAYER -->
+<script>
+
+const songs = [
+
+{
+title: "Alan Walker - Faded",
+artist: "Now Playing",
+src:
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+cover:
+"https://i.imgur.com/W8sQw5x.png"
+},
+
+{
+title: "NEFFEX - Fight Back",
+artist: "Now Playing",
+src:
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+cover:
+"https://i.imgur.com/0rVeh4A.jpeg"
+},
+
+{
+title: "Cartoon - On & On",
+artist: "Now Playing",
+src:
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+cover:
+"https://i.imgur.com/2DhmtJ4.jpeg"
+}
+
+];
+
+let currentSong = 0;
+
+const audio =
+document.getElementById("audio");
+
+const title =
+document.getElementById("song-title");
+
+const artist =
+document.getElementById("artist");
+
+const cover =
+document.getElementById("cover");
+
+const playBtn =
+document.getElementById("play-btn");
+
+const progress =
+document.getElementById("progress-fill");
+
+const current =
+document.getElementById("current");
+
+const duration =
+document.getElementById("duration");
+
+function loadSong(song){
+
+title.innerText = song.title;
+
+artist.innerText = song.artist;
+
+cover.src = song.cover;
+
+audio.src = song.src;
+
+}
+
+loadSong(songs[currentSong]);
+
+function togglePlay(){
+
+if(audio.paused){
+
+audio.play();
+
+playBtn.innerText = "⏸";
+
+}else{
+
+audio.pause();
+
+playBtn.innerText = "▶";
+
+}
+
+}
+
+function nextSong(){
+
+currentSong++;
+
+if(currentSong > songs.length - 1){
+currentSong = 0;
+}
+
+loadSong(songs[currentSong]);
+
+audio.play();
+
+playBtn.innerText = "⏸";
+
+}
+
+function prevSong(){
+
+currentSong--;
+
+if(currentSong < 0){
+currentSong = songs.length - 1;
+}
+
+loadSong(songs[currentSong]);
+
+audio.play();
+
+playBtn.innerText = "⏸";
+
+}
+
+audio.addEventListener(
+"timeupdate",
+() => {
+
+const {
+duration: dur,
+currentTime
+} = audio;
+
+const percent =
+(currentTime / dur) * 100;
+
+progress.style.width =
+percent + "%";
+
+let currentMin =
+Math.floor(currentTime / 60);
+
+let currentSec =
+Math.floor(currentTime % 60);
+
+if(currentSec < 10){
+currentSec = "0" + currentSec;
+}
+
+current.innerText =
+`${currentMin}:${currentSec}`;
+
+let durationMin =
+Math.floor(dur / 60);
+
+let durationSec =
+Math.floor(dur % 60);
+
+if(durationSec < 10){
+durationSec = "0" + durationSec;
+}
+
+if(dur){
+duration.innerText =
+`${durationMin}:${durationSec}`;
+}
+
+});
+
+audio.addEventListener(
+"ended",
+nextSong
+);
+
+  </script>
+
+<!-- MUSIC PLAYER -->
 
 <div class="music-card">
 
 <div class="song-top">
 
-<img src="https://cdn.discordapp.com/attachments/1281630767746912320/1513869280154751190/Hola-Malayalam-2026-20260528104857-500x500_1.jpg?ex=6a294c22&is=6a27faa2&hm=53c8d7865616de53663bc13c925d4ff892335a21523acc169de8104042d2910c&"
+<img
+id="cover"
+src="https://i.imgur.com/W8sQw5x.png">
+
 <div>
 
-<h3>Now Playing</h3>
+<h3 id="song-title">
+Alan Walker - Faded
+</h3>
 
-<p>
-MHR, EFY & EMZIII - Hola
+<p id="artist">
+Now Playing
 </p>
 
 </div>
 
 </div>
 
+<audio id="audio">
+
+<source
+src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+type="audio/mp3">
+
+</audio>
+
 <div class="progress">
 
-<div class="progress-fill"></div>
+<div class="progress-fill"
+id="progress-fill"></div>
 
 </div>
 
 <div class="times">
 
-<span>1:24</span>
-<span>3:32</span>
+<span id="current">
+0:00
+</span>
+
+<span id="duration">
+0:00
+</span>
 
 </div>
 
 <div class="controls">
 
-<button>⏮</button>
-<button>⏸</button>
-<button>⏭</button>
+<button onclick="prevSong()">
+⏮
+</button>
+
+<button onclick="togglePlay()"
+id="play-btn">
+▶
+</button>
+
+<button onclick="nextSong()">
+⏭
+</button>
 
 </div>
 
 </div>
-
-</section>
-
+  
 <!-- FEATURES -->
 
 <section class="features"
