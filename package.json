@@ -1,0 +1,21 @@
+{
+  "name": "destiny-premium-website",
+  "version": "1.0.0",
+  "description": "Destiny Premium Discord Music Bot Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "discord",
+    "music-bot",
+    "spotify",
+    "youtube",
+    "destiny"
+  ],
+  "author": "Destiny",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
